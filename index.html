@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Sports Video Analysis Portfolio | 한대규</title>
+	<style>
+		:root {
+			--bg: #020617;
+			--card: #020617;
+			--accent: #38bdf8;
+			--accent-soft: rgba(56, 189, 248, 0.14);
+			--text: #e5e7eb;
+			--muted: #9ca3af;
+			--border: #111827;
+		}
+
+		* { box-sizing: border-box; }
+
+		body {
+			margin: 0;
+			font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+				sans-serif;
+			background:
+				radial-gradient(circle at top, #0f172a 0, #020617 55%);
+			color: var(--text);
+			line-height: 1.6;
+		}
+
+		.page {
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 32px 16px;
+		}
+
+		.shell {
+			width: 100%;
+			max-width: 880px;
+			border-radius: 24px;
+			border: 1px solid rgba(15, 23, 42, 0.9);
+			background:
+				radial-gradient(circle at top left, #020617 0, #020617 55%);
+			box-shadow:
+				0 28px 80px rgba(0, 0, 0, 0.9),
+				0 0 0 1px rgba(15, 23, 42, 0.7);
+			overflow: hidden;
+			display: grid;
+			grid-template-columns: 1.8fr 1.4fr;
+		}
+
+		@media (max-width: 840px) {
+			.shell {
+				grid-template-columns: 1fr;
+				border-radius: 20px;
+			}
+		}
+
+		.left {
+			padding: 24px 24px 20px;
+			border-right: 1px solid rgba(31, 41, 55, 0.9);
+		}
+		@media (max-width: 840px) {
+			.left { border-right: none; border-bottom: 1px solid rgba(31, 41, 55, 0.9); }
+		}
+
+		.right {
+			padding: 24px 20px 18px;
+			background: radial-gradient(circle at top right, #020617 0, #020617 70%);
+		}
+
+		.badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			font-size: 0.7rem;
+			padding: 4px 9px;
+			border-radius: 999px;
+			background: var(--accent-soft);
+			color: var(--accent);
+			border: 1px solid rgba(56, 189, 248, 0.4);
+			margin-bottom: 8px;
+		}
+
+		.badge-dot {
+			width: 7px;
+			height: 7px;
+			border-radius: 999px;
+			background: var(--accent);
+		}
+
+		h1 {
+			margin: 0 0 6px;
+			font-size: 1.4rem;
+			letter-spacing: 0.03em;
+		}
+
+		.sub {
+			font-size: 0.85rem;
+			color: var(--muted);
+			margin-bottom: 18px;
+		}
+
+		.divider {
+			height: 1px;
+			width: 100%;
+			background: linear-gradient(to right, rgba(31, 41, 55, 0), rgba(31, 41, 55, 0.9), rgba(31, 41, 55, 0));
+			margin: 12px 0 16px;
+		}
+
+		.section-title {
+			font-size: 0.8rem;
+			text-transform: uppercase;
+			letter-spacing: 0.16em;
+			color: var(--muted);
+			margin-bottom: 6px;
+		}
+
+		.pitch {
+			font-size: 0.94rem;
+			margin-bottom: 10px;
+		}
+
+		.pitch strong {
+			color: #e5e7eb;
+		}
+
+		.list {
+			margin: 6px 0 0;
+			padding-left: 16px;
+			font-size: 0.86rem;
+			color: var(--muted);
+		}
+		.list li { margin-bottom: 3px; }
+
+		.tag-row {
+			margin-top: 12px;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 6px;
+		}
+
+		.tag {
+			font-size: 0.7rem;
+			padding: 3px 7px;
+			border-radius: 999px;
+			border: 1px solid rgba(55, 65, 81, 0.9);
+			color: var(--muted);
+			background: #020617;
+		}
+
+		.block {
+			margin-top: 16px;
+			padding: 10px 11px;
+			border-radius: 14px;
+			border: 1px solid rgba(31, 41, 55, 0.9);
+			background: #020617;
+		}
+
+		.block p {
+			margin: 2px 0;
+			font-size: 0.86rem;
+		}
+
+		.block strong {
+			color: var(--accent);
+		}
+
+		.pills {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 4px;
+			margin-top: 6px;
+		}
+		.pill {
+			font-size: 0.7rem;
+			padding: 2px 6px;
+			border-radius: 999px;
+			border: 1px solid rgba(55, 65, 81, 0.9);
+			color: var(--muted);
+		}
+
+		.video-shell {
+			margin-top: 8px;
+			border-radius: 16px;
+			border: 1px solid rgba(31, 41, 55, 0.9);
+			background: #020617;
+			overflow: hidden;
+			aspect-ratio: 16 / 9;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: relative;
+		}
+
+		.video-placeholder {
+			text-align: center;
+			font-size: 0.8rem;
+			color: var(--muted);
+		}
+
+		.video-placeholder span {
+			display: inline-block;
+			margin-top: 6px;
+			padding: 4px 9px;
+			border-radius: 999px;
+			border: 1px dashed rgba(55, 65, 81, 0.9);
+			font-size: 0.72rem;
+		}
+
+		.note {
+			margin-top: 8px;
+			font-size: 0.78rem;
+			color: var(--muted);
+		}
+
+		.profile-name {
+			font-size: 1rem;
+			font-weight: 600;
+		}
+
+		.profile-role {
+			font-size: 0.85rem;
+			color: var(--muted);
+			margin-bottom: 10px;
+		}
+
+		.info-row {
+			font-size: 0.8rem;
+			color: var(--muted);
+			margin-bottom: 3px;
+		}
+
+		.info-row span {
+			display: inline-block;
+			min-width: 60px;
+			color: #6b7280;
+		}
+
+		a {
+			color: var(--accent);
+			text-decoration: none;
+		}
+		a:hover { text-decoration: underline; }
+
+		.footer {
+			margin-top: 18px;
+			font-size: 0.78rem;
+			color: var(--muted);
+		}
+	</style>
+</head>
+<body>
+	<div class="page">
+		<div class="shell">
+			<!-- 왼쪽: 첫인상 + 내가 뭘 했는지 -->
+			<div class="left">
+				<div class="badge">
+					<div class="badge-dot"></div>
+					<span>Entry-level · Sports Management</span>
+				</div>
+				<h1>야구 선수 영상 분석 포트폴리오</h1>
+				<div class="sub">
+					“팬의 입장에서, <strong>생각보다 디테일하게</strong> 선수 분석까지 해 보는 사람”
+					이라는 인상을 목표로 한 개인 프로젝트입니다.
+				</div>
+
+				<div class="divider"></div>
+
+				<div class="section-title">What I Did</div>
+				<p class="pitch">
+					한 명의 <strong>야구 선수 (투구 영상)</strong>를 골라,<br />
+					<strong>볼배합·상황·타자 타입</strong>을 기준으로
+					“이 선수가 어떻게 승부하는지”를 <strong>직접 정리하고 분석</strong>한 프로젝트입니다.
+				</p>
+				<ul class="list">
+					<li>경기 영상을 보면서 투구 하나하나를 직접 기록</li>
+					<li>카운트·이닝·점수차·타자 유형에 따라 어떻게 달라지는지 정리</li>
+					<li>단순 감상이 아니라, 코칭스태프 입장에서 볼 만한 포인트까지 고민</li>
+				</ul>
+
+				<div class="tag-row">
+					<span class="tag">야구 영상 분석</span>
+					<span class="tag">볼배합 패턴</span>
+					<span class="tag">상황별 승부 전략</span>
+				</div>
+
+				<div class="block">
+					<p><strong>왜 했나요?</strong></p>
+					<p>
+						단순한 팬의 시청을 넘어서, 경기 속 ‘선택의 이유’를 이해하고 싶다는 호기심에서 이 영상을 제작했습니다.
+투수와 포수의 볼배합, 타자의 상황 판단을 분석하며 야구를 <strong>보는 스포츠에서 해석하는 콘텐츠<strong>로 풀어보고자 했습니다.
+					</p>
+				</div>
+			</div>
+
+			<!-- 오른쪽: 영상 자리 + 디테일 어필 + 프로필 -->
+			<div class="right">
+				<div class="section-title">Video Analysis</div>
+				<div class="block">
+					<p><strong>선수 분석 영상</strong></p>
+					<p style="font-size:0.84rem; color:var(--muted);">
+						아래 영역에, 직접 제작한 <strong>선수 영상 분석 클립</strong>을 넣을 예정입니다.<br />
+						투구 장면만 보여주는 것이 아니라,
+						<strong>왜 이 상황에서 이 볼배합이 나왔는지</strong> 제 관점으로 설명합니다.
+					</p>
+
+					<div class="video-shell">
+  <p style="margin:6px 0 4px; font-size:0.82rem; color:#9ca3af;">
+  분석 영상 ① — 배터리의 볼배합 분석
+</p>
+<div class="video-shell">
+  <iframe
+    src="https://drive.google.com/file/d/1qrVuhZ96TxZbL--q8bZIwJbk5kkJ_Gbw/preview"
+    allow="autoplay"
+    style="width:100%; height:100%; border:none;"
+  ></iframe>
+</div>
+
+<p style="margin:12px 0 4px; font-size:0.82rem; color:#9ca3af;">
+  분석 영상 ② — 볼배합 및 타자 대응
+</p>
+<div class="video-shell">
+  <iframe
+    src="https://drive.google.com/file/d/1C66PFIwF0z_ANe7LbVvHlDVf4a8EE3B4/preview"
+    allow="autoplay"
+    style="width:100%; height:100%; border:none;"
+  ></iframe>
+</div>
+
+</div>
+
+					<p class="note">
+						영상에는 하나의 아웃카운트 중심으로,<br />
+						카운트·타자 유형·점수 상황에 따라 볼배합이 어떻게 바뀌는지
+						<strong>직접 설명하는 내레이션</strong>을 담았습니다.
+					</p>
+				</div>
+
+				<div class="block">
+					<p><strong>나만의 디테일</strong></p>
+					<div class="pills">
+						<div class="pill">단순 하이라이트가 아니라, “이유”까지 설명</div>
+						<div class="pill">투수·타자 둘 다의 입장에서 생각</div>
+						<div class="pill">숫자를 몰라도 이해되게 설명</div>
+					</div>
+				</div>
+
+				<div class="block">
+					<p class="profile-name">한대규</p>
+					<p class="profile-role"> 스포츠 분석 지망 · 야구 영상/데이터 관심</p>
+					<div class="info-row">
+						<span>관심 분야</span> 프로야구 구단/에이전시 운영, 경기 분석, 야구 글 작성
+					</div>
+					<div class="info-row">
+						<span>이메일</span>
+						<a href="mailto:bruno147@naver.com">bruno147@naver.com</a>
+					</div>
+					<div class="footer">
+						이 페이지는 “야구 팬이 여기까지 생각해 본 사람”이라는 인상을 남기기 위한<br />
+						개인 포트폴리오용 웹사이트입니다.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
